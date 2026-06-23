@@ -8,7 +8,7 @@ import org.yearup.models.ShoppingCartItem;
 import org.yearup.repository.ShoppingCartRepository;
 
 import java.util.List;
-
+import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ShoppingCartService
 {
@@ -41,8 +41,49 @@ public class ShoppingCartService
         }
 
         return shoppingCart;
-
     }
 
-    // add additional methods here
+    public ShoppingCart addProduct(int userId, int productId)
+    {
+        CartItem cartItem =
+                shoppingCartRepository.findByUserIdAndProductId(userId, productId);
+
+        if (cartItem == null)
+        {
+            cartItem = new CartItem();
+            cartItem.setUserId(userId);
+            cartItem.setProductId(productId);
+            cartItem.setQuantity(1);
+        }
+        else
+        {
+            cartItem.setQuantity(cartItem.getQuantity() + 1);
+        }
+
+        shoppingCartRepository.save(cartItem);
+
+        return getByUserId(userId);
+    }
+
+    public ShoppingCart updateQuantity(int userId, int productId, int quantity)
+    {
+        CartItem cartItem =
+                shoppingCartRepository.findByUserIdAndProductId(userId, productId);
+
+        if (cartItem != null)
+        {
+            cartItem.setQuantity(quantity);
+            shoppingCartRepository.save(cartItem);
+        }
+
+        return getByUserId(userId);
+    }
+
+    @Transactional
+    public ShoppingCart clearCart(int userId)
+    {
+        shoppingCartRepository.deleteByUserId(userId);
+
+        return getByUserId(userId);
+    }
 }
