@@ -1,226 +1,191 @@
-** Capstone-_API-Clothing-Store **
-****Clothing Store API****
-=============================================================================================================
+# ALLURE Backend
+
 ## Overview
-=============================================================================================================
-The Clothing Store API is a RESTful backend application built with Java and Spring Boot that powers an online
-clothing store. It provides secure authentication, product and category management, shopping cart functionality, 
-user profile management, and a complete checkout workflow. The project follows a layered architecture using Controllers,
-Services, Repositories, and JPA entities to ensure clean separation of responsibilities and maintainability.
 
-=============================================================================================================
-## Technologies Used
-=============================================================================================================
-Java 17
-Spring Boot
-Spring Security
-Spring Data JPA
-Hibernate
-MySQL
-Maven
-JWT Authentication
-REST APIs
-JUnit
-Mockito
-H2 Database (Testing)
+ALLURE Backend is a RESTful API built with Spring Boot that powers the ALLURE fashion e-commerce platform. It provides secure authentication, user registration, product management, shopping cart functionality, customer profile management, and order processing.
 
-=========================================================================================================
-### Features
-=========================================================================================================
-**Authentication**
+The application follows a layered architecture using Spring Boot, Spring Security, Spring Data JPA, and MySQL to provide a secure and scalable backend.
 
-User registration
-Secure login using JWT
-Password encryption with BCrypt
-Role-based authorization
-Protected API endpoints
+---
 
-**Product Management**
+# Features
 
-Retrieve all products
-Search and filter products
-Filter by:
-Category
-Subcategory
-Minimum price
-Maximum price
-Featured products
-Product details lookup
-Product inventory management
+## Authentication
 
-**Category Management**
+* JWT Authentication
+* Secure Login
+* Role-Based Authorization
+* Password Encryption with BCrypt
 
-Retrieve all categories
-Retrieve a category by ID
-Create categories (Admin)
-Update categories (Admin)
-Delete categories (Admin)
-Retrieve all products within a category
+## User Management
 
-=======================================================================================================
-### Shopping Cart
-=======================================================================================================
-Implemented a complete shopping cart system.
+* User Registration
+* Duplicate Username Validation
+* Automatic Profile Creation
+* Customer Profile Management
 
-Users can:
+## Product Management
 
-View their shopping cart
-Add products to the cart
-Update product quantities
-Remove all items from the cart
+* Browse Products
+* Search Products
+* Product Categories
+* Product Filtering
 
-Shopping carts are stored in the database and remain available after users log back in.
+## Shopping Cart
 
-=======================================================================================================
-### User Profile
-=======================================================================================================
-Implemented profile management.
+* Add Products to Cart
+* Update Cart
+* Remove Products
+* Clear Shopping Cart
 
-Users can:
+## Checkout
 
-View their profile
-Update:
-First name
-Last name
-Phone number
-Email
-Address
-City
-State
-ZIP Code
+* Secure Checkout
+* Order Creation
+* Shipping Address Retrieval
+* Order Line Item Generation
+* Shopping Cart Cleanup After Checkout
 
-Profiles are automatically created when a new user registers.
+## Customer Profile
 
-===========================================================================================================
-### Checkout
-===========================================================================================================
-Implemented a complete checkout workflow.
+* View Profile
+* Update Profile
+* Address Management
 
-When a customer places an order:
+---
 
-Retrieves the current shopping cart
-Creates a new order
-Creates one order line item for each product
-Copies shipping information from the user's profile
-Stores the order in the database
-Clears the shopping cart after a successful checkout
+# Technologies Used
 
-=================================================================================================
+* Java 17
+* Spring Boot
+* Spring Security
+* Spring Data JPA
+* Hibernate
+* MySQL
+* Maven
+* JWT Authentication
+* BCrypt Password Encoder
 
-### Bug Fixes
+---
 
-**Bug #1**
+# Project Structure
 
-Resolved an issue where product searches returned incomplete results.
+```text
+src
+├── main
+│   ├── java
+│   │   └── org.yearup
+│   │       ├── controllers
+│   │       ├── models
+│   │       ├── repository
+│   │       ├── security
+│   │       ├── service
+│   │       └── Allure.java
+│   └── resources
+│       ├── application.properties
+│     
+```
 
-Solution
-Corrected filtering logic
-Ensured all matching products are returned
-Added unit tests to verify expected behavior
+---
 
-================================================================================================
+# API Endpoints
 
-**Bug #2**
+## Authentication
 
-Resolved an issue where product stock updates were not properly persisted.
+| Method | Endpoint    | Description         |
+| ------ | ----------- | ------------------- |
+| POST   | `/login`    | Authenticate user   |
+| POST   | `/register` | Register a new user |
 
-Solution
-Corrected inventory update logic
-Verified stock updates through API testing
-Added unit tests
+## Products
 
-===================================================================================================
-### Testing
-====================================================================================================
-The application was thoroughly tested using:
+| Method | Endpoint      |
+| ------ | ------------- |
+| GET    | `/products`   |
+| GET    | `/categories` |
 
-JUnit 5
-Mockito
-Insomnia
+## Shopping Cart
 
-Completed testing includes:
+| Method | Endpoint              |
+| ------ | --------------------- |
+| GET    | `/cart`               |
+| POST   | `/cart/products/{id}` |
+| DELETE | `/cart`               |
 
-Product endpoints
-Category endpoints
-Shopping cart endpoints
-Profile endpoints
-Checkout workflow
-Authentication and authorization
-Bug regression tests
+## Profile
 
-All provided backend tests pass successfully.
+| Method | Endpoint   |
+| ------ | ---------- |
+| GET    | `/profile` |
+| PUT    | `/profile` |
 
-=================================================================================================
-### API Endpoints
-=================================================================================================
+## Orders
 
-**Authentication**
+| Method | Endpoint  |
+| ------ | --------- |
+| POST   | `/orders` |
+| GET    | `/orders` |
 
-Method	Endpoint
-POST	/login
-POST	/register
+---
 
-**Products**
+# Database
 
-Method	Endpoint
-GET	/products
-GET	/products/{id}
+The backend uses **MySQL** for data persistence.
 
-**Categories**
+Main tables include:
 
-Method	Endpoint
-GET	/categories
-GET	/categories/{id}
-GET	/categories/{id}/products
-POST	/categories
-PUT	/categories/{id}
-DELETE	/categories/{id}
+* Users
+* Profiles
+* Products
+* Categories
+* Shopping Cart
+* Orders
+* Order Line Items
 
-**Shopping Cart**
-Method	Endpoint
-GET	/cart
-POST	/cart/products/{id}
-PUT	/cart/products/{id}
-DELETE	/cart
+---
 
-**Profile**
-Method	Endpoint
-GET	/profile
-PUT	/profile
+# Security
 
-**Orders**
+Authentication is secured using JSON Web Tokens (JWT).
 
-Method	Endpoint
-POST	/orders
-==========================================================================================================
-### Project Architecture
-==========================================================================================================
-The application follows a layered architecture:
+Passwords are encrypted using BCrypt before being stored in the database.
 
-Controllers
-Services
-Repositories
-Models (Entities)
-DTOs
-Security Configuration
+Role-based authorization controls access to protected endpoints.
 
-This structure improves scalability, readability, and maintainability.
+---
 
-==========================================================================================================
-### Future Enhancements
-==========================================================================================================
-The frontend is currently being expanded with additional features, including:
+# Running the Project
 
-Modern responsive user interface
-Checkout page
-Order history
-Loyalty rewards program
-Premium shipping options
-Improved product cards
-Enhanced shopping experience
+1. Clone the repository.
+2. Open the project in IntelliJ IDEA.
+3. Configure the MySQL database.
+4. Update `application.properties` with your database credentials.
+5. Run the Spring Boot application.
+6. Access the API at:
 
-=========================================================================================================
-### Author
-=========================================================================================================
-Developed as a full-stack capstone project using Spring Boot, MySQL, REST APIs, JWT authentication, 
-and modern Java development practices.
+```text
+http://localhost:8080
+```
+
+---
+
+# Future Enhancements
+
+* Payment Gateway Integration
+* Rewards Program
+* Order Tracking
+* Wishlist
+* Product Reviews
+* Inventory Management Dashboard
+
+---
+
+# Author
+
+**Sara Yoda**
+
+Software Development Student
+
+Year Up United
+
+2026
